@@ -2,6 +2,7 @@
 #define STACK_H
 
 #include <stdio.h>
+#include <stdlib.h>
 
 /* default is Linked list based implementation*/
 #define LL 
@@ -18,9 +19,9 @@ typedef struct element {
     struct element *next;
 } element_t;
 
-int push (element_t **top, element_t *new_node);
-element_t *pop (element_t **top);
-int create_stack (int init_size); // valid for DYNARR based implementation
-int delete_stack ();
+int push (element_t **top, int data);
+int pop (element_t **top, int *data);
+int create_stack (element_t **top, int init_size); // valid for DYNARR based implementation
+int delete_stack (element_t **top);
 
 #endif
