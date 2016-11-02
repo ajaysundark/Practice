@@ -14,6 +14,7 @@ int push (element_t **top, int data) {
     new_node->next = *top;
 
     *top = new_node;
+    // printf("top now <data %d , new top  %p , old top %p>\n", new_node->data, (void *)new_node->next, (void*) *top);
     return 0;
 }
 
@@ -64,7 +65,7 @@ void print_stack(element_t *top) {
 
 int
 main (int argc, char **argv) {
-    element_t *stackptr;
+    element_t *stackptr = NULL;
 
 #ifdef LL
     printf("Linked list implementation is defined.\n");
@@ -78,8 +79,19 @@ main (int argc, char **argv) {
     push(&stackptr, 1);
     push(&stackptr, 20);
     push(&stackptr, 3);
+
     count_stack(stackptr);
     print_stack(stackptr);
+
+    int val;
+    if(pop(&stackptr, &val)==0)
+        printf("popped %d from stack, ", val);
+    print_stack(stackptr);
+    if(pop(&stackptr, &val)==0)
+        printf("popped %d from stack, ", val);
+    print_stack(stackptr);
+    printf("delete stack now..\n");
     delete_stack(&stackptr);
+    count_stack(stackptr);
     return 0;
 }
