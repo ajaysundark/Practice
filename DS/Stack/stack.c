@@ -61,6 +61,7 @@ void print_stack(element_t *top) {
 #endif //LL
 
 #ifdef DYNARR
+
 #endif //DYNARR
 
 int
