@@ -2,9 +2,9 @@
 
 int main () {
 	int i = 4;
+	int err = 0;
 	printf("Below are being inserted into the list :\n");
 	for (; i>=0; --i) {
-		int err = 0;
 		err = insert_data(i);
 		if(err==LL_SUCCESS)
 			printf("%d ", i);
@@ -23,5 +23,14 @@ int main () {
 	if(mynode) {
 		printf("As retrieved from LL,\n\tdata : %d\n", mynode->data);
 	}
+	printf("insert another 3..\n");
+	err = insert_data(3);
+	print_list();
+	printf("Deleting 2..\n");
+	delete_data(2);
+	print_list(); 
+	printf("Deleting 3..\n");
+	delete_data(3);
+	print_list(); 
 	return 0;
 }

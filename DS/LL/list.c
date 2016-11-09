@@ -11,7 +11,7 @@ int find_previous_ptr(node_t **prev, int current_data) {
 		return LL_EMPTY; //insert at front
 	}
 
-	// atleast one element present 
+	// one element present 
 	(*prev) = NULL;
 	if (runner->data > current_data)
 	{ return LL_NOT_FOUND; }
@@ -19,18 +19,23 @@ int find_previous_ptr(node_t **prev, int current_data) {
 	if (runner->data == current_data)
 	{ return LL_SUCCESS; }
 
+	(*prev) = runner;
+
+	// printf("Debug: inside find_prev: prev and runner pointing to %d \n", (*prev)->data);
 	while (runner->next) {
+		// more than one element available
 		if (runner->next->data > current_data) {
 			break;
 		}
 
 		if(runner->next->data == current_data) {
 			err = LL_SUCCESS;
+			break;
 		}
+		(*prev) = runner->next;
 		runner = runner->next;
+		// printf("end of loop, runner is %d, prev is %d\n", runner ? runner->data : 0, (*prev)->data);
 	}
-
-	(*prev) = runner;
 	return err;
 }
 
@@ -52,21 +57,21 @@ int insert_data (int data) {
 	} else if (err == LL_NOT_FOUND || err == LL_SUCCESS) {
 		// printf("Debug: for data %d, find_prev_ptr returned %s error code %d",data, (previous==NULL) ? "NULL":"", err);
 		if (previous == NULL)  {
-		//	printf("\n");
+			printf("\n");
 			addendum->next = _head;
 			_head = addendum;
 
 		}
 		else {
-		//	printf(" with previous ptr to %d\n", previous->data);
+			// printf(" with previous ptr to %d\n", previous->data);
 			addendum->next = previous->next;
 			previous->next = addendum;
 		}
 		err = LL_SUCCESS;
 	} else fprintf(stderr, "insert_data failed with %d", err);
 
-	// printf("Debug: inside insert for %d : list now : ", data);
-	// print_list();
+	 // printf("Debug: inside insert for %d : list now : ", data);
+	 // print_list();
 
 	nnodes += (err==LL_SUCCESS);
 	return err;
@@ -95,25 +100,29 @@ int delete_data (int data) {
 	node_t *prev = NULL;
 	node_t *deleteme = NULL;
 	int err, count=0;
-	while ( (err=find_previous_ptr(&prev, data)) == LL_SUCCESS ) {
-	// if ( (err = find_previous_ptr(&prev, data)) ==LL_SUCCESS ) {
+	if ( (err=find_previous_ptr(&prev, data)) == LL_SUCCESS ) {
+		// printf("Debug : Went to find %d, Found %d in the list after %d\n", data, prev->next->data, prev->data);
 		if (prev == NULL) {
 			// first element at LL
 			deleteme = _head;
 			_head = _head->next;
+			// printf("going to delete %d found at head : %p\n", deleteme->data, deleteme);
+			// print_list();
 			free(deleteme);
 		}
 		else {
 			deleteme = prev->next;
 			prev->next = prev->next->next;
+			// printf("going to delete %d found at %p after prev : %d\n", deleteme->data, deleteme, prev->data);
+			// print_list();
 			free(deleteme);
 		}
 
 		--nnodes;
 		// till the find_previous_enhancement
-		++count;
-	}
-
+		
+		++count; 
+	}// else { printf("delete_data got err %d from find_prev_ptr", err);}
 	return count;
 }
 
