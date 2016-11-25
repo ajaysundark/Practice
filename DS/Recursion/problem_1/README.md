@@ -2,9 +2,9 @@ Consider a sorted array say X which has no two elements in it that are same. How
 
 ##example
 
-"""
+~~~~
 	Array X : -3 -1 0 3 5 7 
     index   :  0  1 2 3 4 5
 
     Answer is 3 as X[3] = 3.
-"""
+~~~~
