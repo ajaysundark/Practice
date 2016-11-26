@@ -2,7 +2,7 @@
 
 int bsearch(int *array, int left, int right, int target) {
 	unsigned int center = left + (right - left)/2;
-	if (left >= right && target!= array[left])
+	if ( (left > right) || (left==right && target!= array[left]) ) 
 	{
 		fprintf(stdout, "\nTarget %d not found!", target);
 		return (TARGET_NOT_FOUND);
@@ -22,6 +22,32 @@ int bsearch(int *array, int left, int right, int target) {
 	} 
 }
 
+int bsearch_iter (int *array, int left, int right, int target) {
+
+	while (1) {
+
+		unsigned int center = left + (right - left)/2;
+
+		if ( (left > right) || ( (left==right) && (target!= array[left]) ) )
+		{
+			fprintf(stdout, "\nTarget %d not found!", target);
+			return (TARGET_NOT_FOUND);
+		}
+
+		if (array[center] == target)
+		{
+			return center;
+		}
+		else if (array[center] < target)
+		{
+			left = center+1;
+		}
+		else {
+			right = center-1;
+		}
+	}
+}
+
 int int_cmp(const void *a, const void *b) {
 	int inta = *(int *)a; 
 	int intb = *(int *)b;
@@ -30,7 +56,7 @@ int int_cmp(const void *a, const void *b) {
 
 int main(int argc, char const *argv[])
 {
-	int arr[] = {1,33,41,42,51,43,11,23,64,123, 0, -4, -19, 79, 14} ;
+	int arr[] = {1,33,41,42,51,43,11,23,64,123, 0, -4, -19, 79} ;
 	int len = sizeof(arr)/sizeof(int);
 
 	printf("%10s", "Index : ");
